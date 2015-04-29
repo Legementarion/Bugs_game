@@ -21,11 +21,8 @@ public class World {
        // SetWorldBounds(); // Установка размера игрового поля. Зависимость от размеров экрана.
 
         GenCells(CellCount);  // Генерация ячеек игрового поля.
-        System.out.println("World is complete");
-        World.get(10).setName("red");
-        System.out.println("name is set");
         GenBugs("red",11); // Создание персонажей (жуки).
-        GenBugs("blue",96);
+     //   GenBugs("blue",96);
 
 
     }
@@ -88,7 +85,7 @@ public class World {
                 for (int i = 1; i <= CellCount; i++) {
 
                     Bounds bound = new Bounds(startx,starty,cell); // Расчет позиции текущей ячейки (в будущем)
-                 //   exemple = GenCell("Name" + Integer.toString(i), i, bound);
+
                     World.add(GenCell("Name" + Integer.toString(i), i, bound));
 
                     starty+= cell+step;
@@ -101,7 +98,7 @@ public class World {
         }
         else {
                 World.add(GenCell("Name" + Integer.toString(1), 1, new Bounds(0, 0, 200)));
-               // exemple  = GenCell("Name" + Integer.toString(1), 1, new Bounds(0,0,200));
+
             }
 
 

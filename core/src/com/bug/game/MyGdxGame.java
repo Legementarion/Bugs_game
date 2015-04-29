@@ -4,6 +4,7 @@ package com.bug.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -16,6 +17,7 @@ public class MyGdxGame  extends Game {
     public BackgroundActor background;
     public World world ;
     SpriteBatch batch;
+    public OrthographicCamera camera;
 
 
     class BugListener implements InputProcessor {
@@ -82,7 +84,8 @@ public class MyGdxGame  extends Game {
 
 	@Override
 	public void create () {
-
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 800, 480);
         background = new BackgroundActor();
         background.setPosition(0, 0);
 
@@ -93,6 +96,11 @@ public class MyGdxGame  extends Game {
         this.setScreen(new MainMenuScreen(this));
 
 
+    }
+
+    @Override
+    public void render() {
+        super.render(); // важно!
     }
 
 

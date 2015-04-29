@@ -2,6 +2,7 @@ package com.bug.game;
 
 import java.util.ArrayList;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Gdx;
@@ -21,6 +22,7 @@ public class Bug extends Actor {
     private Sprite Sprite;
     private Bounds bound;   //Позиция на поле
     World world;
+    MyGdxGame game;
 
     public Bug(String Name, int CellID, Bounds bound) {
         this.bound = bound;
@@ -33,10 +35,22 @@ public class Bug extends Actor {
          else{
             bug_texture = new Texture("bug_blue.bmp");
         }
-        System.out.println("name - " + Name);
-        System.out.println("position - " + CurrentPossition);
+/*
+        addListener(new InputListener(){
 
+            public boolean touchDown (InputEvent event, float x, float y) {
+                Gdx.input.vibrate(25);
+                System.out.println("succses");
+                return true;
+            };
 
+            public void touchUp (InputEvent event, float x, float y) {
+                Gdx.input.vibrate(25);
+                System.out.println("succses2");
+            } ;
+        });
+        */
+        setTouchable(Touchable.enabled);
         Sprite = new Sprite(bug_texture);
 
     }
@@ -58,7 +72,7 @@ public class Bug extends Actor {
 
     public void setCurrentPosition (int NewPosition){
       this.CurrentPossition = NewPosition;
-      this.bound = world.getCell(NewPosition).GetCellCords();
+      this.bound = game.world.World.get(CurrentPossition).GetCellCords();
     }
 
     public String getName() {

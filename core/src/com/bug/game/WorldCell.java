@@ -56,7 +56,6 @@ public class WorldCell extends Actor {
     }
 
     public void setName (String Name) {
-        System.out.println("worldcell name - " + Name);
         if (Name == "red") {
             cell_texture = new Texture("red.bmp");
         }
