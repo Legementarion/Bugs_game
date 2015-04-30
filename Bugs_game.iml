@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id="Bugs_game" external.linked.project.path="$USER_HOME$/Project/Bugs_game" external.root.project.path="$USER_HOME$/Project/Bugs_game" external.system.id="GRADLE" external.system.module.group="" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="java-gradle" name="Java-Gradle">
+      <configuration>
+        <option name="BUILD_FOLDER_PATH" value="$MODULE_DIR$/build" />
+        <option name="BUILDABLE" value="false" />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$USER_HOME$/Project/Bugs_game/build" />
+    <output-test url="file://$USER_HOME$/Project/Bugs_game/build" />
+    <exclude-output />
+    <content url="file://$USER_HOME$/Project/Bugs_game">
+      <excludeFolder url="file://$USER_HOME$/Project/Bugs_game/.gradle" />
+      <excludeFolder url="file://$USER_HOME$/Project/Bugs_game/build" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
