@@ -1,8 +1,8 @@
-C:\Users\Lego\Downloads\test\android\build\intermediates\classes\debug
-C:\Users\Lego\Downloads\test\android\build\intermediates\pre-dexed\debug\core-1.0-f661f4acfad4ec051fd7bb43a6e2d57598ffd49e.jar
-C:\Users\Lego\Downloads\test\android\build\intermediates\pre-dexed\debug\gdx-freetype-1.5.3-46c5fc694723fcb45291d6885a41684bb4fad613.jar
-C:\Users\Lego\Downloads\test\android\build\intermediates\pre-dexed\debug\gdx-box2d-1.5.3-9c79633b9c9d8211ec25d54d44a6d3c0b88837b3.jar
-C:\Users\Lego\Downloads\test\android\build\intermediates\pre-dexed\debug\gdx-ai-1.4.0-7f0e8b42c9bced7c6e933ecc4a9524d93203c5e6.jar
-C:\Users\Lego\Downloads\test\android\build\intermediates\pre-dexed\debug\gdx-backend-android-1.5.3-c1b9dcac0f3e04c11da861c72396e7bbcb757654.jar
-C:\Users\Lego\Downloads\test\android\build\intermediates\pre-dexed\debug\gdx-bullet-1.5.3-6f035e263b81aa8e5d3b6f00bee0fc1489f2b99b.jar
-C:\Users\Lego\Downloads\test\android\build\intermediates\pre-dexed\debug\gdx-1.5.3-fc78201b3e777e39939510057e4dce75496f7702.jar
+C:\Users\Lego\Downloads\Bugs_game\android\build\intermediates\classes\debug
+C:\Users\Lego\Downloads\Bugs_game\android\build\intermediates\pre-dexed\debug\core-1.0-37fa63d1d70c95cd4e3968ad0d9a05ffb7b8ed7c.jar
+C:\Users\Lego\Downloads\Bugs_game\android\build\intermediates\pre-dexed\debug\gdx-freetype-1.5.3-46c5fc694723fcb45291d6885a41684bb4fad613.jar
+C:\Users\Lego\Downloads\Bugs_game\android\build\intermediates\pre-dexed\debug\gdx-box2d-1.5.3-9c79633b9c9d8211ec25d54d44a6d3c0b88837b3.jar
+C:\Users\Lego\Downloads\Bugs_game\android\build\intermediates\pre-dexed\debug\gdx-ai-1.4.0-7f0e8b42c9bced7c6e933ecc4a9524d93203c5e6.jar
+C:\Users\Lego\Downloads\Bugs_game\android\build\intermediates\pre-dexed\debug\gdx-backend-android-1.5.3-c1b9dcac0f3e04c11da861c72396e7bbcb757654.jar
+C:\Users\Lego\Downloads\Bugs_game\android\build\intermediates\pre-dexed\debug\gdx-bullet-1.5.3-6f035e263b81aa8e5d3b6f00bee0fc1489f2b99b.jar
+C:\Users\Lego\Downloads\Bugs_game\android\build\intermediates\pre-dexed\debug\gdx-1.5.3-fc78201b3e777e39939510057e4dce75496f7702.jar

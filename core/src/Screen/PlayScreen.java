@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.bug.game.Bounds;
 import com.bug.game.Bug;
 import com.bug.game.MyGdxGame;
 import com.bug.game.World;
@@ -29,7 +30,7 @@ public class PlayScreen implements Screen {
     MyGdxGame game;
     Stage stage;
     Table table = new Table();
-
+    private Bounds bound;
     Group group_bug = new Group();
     Group group_stage = new Group();
 
@@ -48,7 +49,12 @@ public class PlayScreen implements Screen {
 
         for (int j=0; j<game.world.Bugs.size(); j++) {
             game.world.getBug(j).addListener(new BugListener());
+       //   game.world.getBug(j).setBounds(200, 200, 200, 200);
+            game.world.getBug(j).setHeight(92);
+            game.world.getBug(j).setWidth(87);
+            game.world.getBug(j).setPosition(495,113);
             group_bug.addActor(game.world.getBug(j));
+           // stage.addActor(game.world.getBug(j));
             if (game.world.getBug(j).isTouchable()){
                 System.out.println("bug succses");
             }
@@ -63,7 +69,7 @@ public class PlayScreen implements Screen {
     class BugListener extends InputListener {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            Gdx.input.vibrate(25);
+//            Gdx.input.vibrate(25);
             System.out.println("succses");
             event.getListenerActor().setSize(200, 100);
             return true;
@@ -71,7 +77,7 @@ public class PlayScreen implements Screen {
 
         @Override
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-           Gdx.input.vibrate(80);
+     //      Gdx.input.vibrate(80);
             System.out.println("fail");
             event.getListenerActor().setSize(100, 50);
         }
@@ -108,14 +114,14 @@ public class PlayScreen implements Screen {
             }
         });
 
-        group_bug.setTouchable(Touchable.enabled);
-       /*
+
+
         group_bug.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("succses 44");
             }
-        }); */
+        });
 
         group_bug.addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y) {
@@ -129,11 +135,11 @@ public class PlayScreen implements Screen {
             } ;
         });
 
-
+        group_bug.setTouchable(Touchable.enabled);
         stage.addActor(group_stage);
         stage.addActor(group_bug);
-        table.add(buttonPlay).size(800,150).padBottom(50).row();
-        stage.addActor(table);
+    //    table.add(buttonPlay).size(800,150).padBottom(50).row();
+    //    stage.addActor(table);
 
 
 /*
