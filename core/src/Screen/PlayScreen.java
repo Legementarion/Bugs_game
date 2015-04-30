@@ -33,7 +33,7 @@ public class PlayScreen implements Screen {
     private Bounds bound;
     Group group_bug = new Group();
     Group group_stage = new Group();
-//111 vlad
+//111 vlad1
 
 
     Skin skin = new Skin(Gdx.files.internal("skin.json"), new TextureAtlas(Gdx.files.internal("MainMenu.pack")));
