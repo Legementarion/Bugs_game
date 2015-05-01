@@ -29,17 +29,11 @@ import com.bug.game.World;
 public class PlayScreen implements Screen {
     MyGdxGame game;
     Stage stage;
-    Table table = new Table();
     private Bounds bound;
     Group group_bug = new Group();
     Group group_stage = new Group();
 
 
-
-    Skin skin = new Skin(Gdx.files.internal("skin.json"), new TextureAtlas(Gdx.files.internal("MainMenu.pack")));
-
-
-    TextButton buttonPlay = new TextButton("Play", skin, "Play");
 
 
     public PlayScreen(final MyGdxGame gam) {
@@ -49,12 +43,7 @@ public class PlayScreen implements Screen {
 
         for (int j=0; j<game.world.Bugs.size(); j++) {
             game.world.getBug(j).addListener(new BugListener());
-       //   game.world.getBug(j).setBounds(200, 200, 200, 200);
-            game.world.getBug(j).setHeight(92);
-            game.world.getBug(j).setWidth(87);
-            game.world.getBug(j).setPosition(495,113);
             group_bug.addActor(game.world.getBug(j));
-           // stage.addActor(game.world.getBug(j));
             if (game.world.getBug(j).isTouchable()){
                 System.out.println("bug succses");
             }
@@ -77,7 +66,7 @@ public class PlayScreen implements Screen {
 
         @Override
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-     //      Gdx.input.vibrate(80);
+     //     Gdx.input.vibrate(80);
             System.out.println("fail");
             event.getListenerActor().setSize(100, 50);
         }
@@ -92,13 +81,6 @@ public class PlayScreen implements Screen {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
 
-
-
-   //   if(Gdx.input.isTouched()) {
-    //       game.world.MakeStep();
-    //    }
-
-
     }
 
     @Override
@@ -107,15 +89,6 @@ public class PlayScreen implements Screen {
     @Override
     public void show() {
 
-        buttonPlay.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("succses");
-            }
-        });
-
-
-
         group_bug.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -123,37 +96,11 @@ public class PlayScreen implements Screen {
             }
         });
 
-        group_bug.addListener(new InputListener(){
-            public boolean touchDown (InputEvent event, float x, float y) {
-                Gdx.input.vibrate(25);
-                System.out.println("succses1");
-                return true;
-            };
-            public void touchUp (InputEvent event, float x, float y) {
-                Gdx.input.vibrate(25);
-                System.out.println("succses2");
-            } ;
-        });
- //111
+
         group_bug.setTouchable(Touchable.enabled);
         stage.addActor(group_stage);
         stage.addActor(group_bug);
-    //    table.add(buttonPlay).size(800,150).padBottom(50).row();
-    //    stage.addActor(table);
 
-
-/*
-        Gdx.input.setInputProcessor(new InputAdapter(){
-            public boolean touchDown(int x,int y,int pointer,int button){
-                System.out.println("11111");// код при нажатии
-                return true; // возвращает true, сообщая, что событие было обработано
-            }
-
-            public boolean touchUp(int x,int y,int pointer,int button){
-                System.out.println("211111");// код при отпускании
-                return true; // возвращает true, сообщая, что событие было обработано
-            }
-        }); */
        Gdx.input.setInputProcessor(stage);
 
     }

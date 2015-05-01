@@ -38,25 +38,10 @@ public class Bug extends Actor {
 
         Sprite = new Sprite(bug_texture);
 
+        setHeight(bug_texture.getHeight());
+        setWidth(bug_texture.getWidth());
+        setPosition(bound.getX(), bound.getY());
 
-        System.out.println("w " + bug_texture.getWidth());
-        System.out.println("h " + bug_texture.getHeight());
-
-      //  setBounds(400, 400, getWidth(), getHeight());
-
-        addListener(new InputListener(){
-
-            public boolean touchDown (InputEvent event, float x, float y) {
-                Gdx.input.vibrate(25);
-                System.out.println("succses");
-                return true;
-            };
-
-            public void touchUp (InputEvent event, float x, float y) {
-                Gdx.input.vibrate(25);
-                System.out.println("succses2");
-            } ;
-        });
 
         setTouchable(Touchable.enabled);
 
@@ -148,9 +133,6 @@ public class Bug extends Actor {
     @Override
     public void draw(Batch batch, float alpha) {
         Sprite.setPosition(bound.getX(), bound.getY());
-       // System.out.println("pos x"+ bound.getX());
-      //  System.out.println("pos y" + bound.getY());
-       // Sprite.setBounds(200, 200, bound.getX(), bound.getY());
         Sprite.draw(batch);
     }
 

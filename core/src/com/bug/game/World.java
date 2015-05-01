@@ -22,7 +22,7 @@ public class World {
 
         GenCells(CellCount);  // Генерация ячеек игрового поля.
         GenBugs("red",11); // Создание персонажей (жуки).
-     //   GenBugs("blue",96);
+        GenBugs("blue",96);
 
 
     }
