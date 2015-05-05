@@ -39,15 +39,18 @@ public class Bug extends Actor {
      //   setCapturedCell(CurrentPossition, this.Name);
 
         if (Name == "red") {
-            bug_texture = new Texture("bug_red.jpg");
+            bug_texture = new Texture("Bug_red_5dmg.png");
         }
          else{
-            bug_texture = new Texture("bug_blue.jpg");
+            bug_texture = new Texture("Bug_blue_1dmg.png");
         }
 
         Sprite = new Sprite(bug_texture);
 
+       // setHeight(bound.getSize());
         setHeight(bug_texture.getHeight());
+    //    setWidth(bound.getSize());
+        //1111
         setWidth(bug_texture.getWidth());
         setPosition(bound.getX(), bound.getY());
 
@@ -204,6 +207,8 @@ public class Bug extends Actor {
 
     @Override
     public void draw(Batch batch, float alpha) {
+
+        Sprite.setSize(bound.getSize(),bound.getSize());
         Sprite.setPosition(bound.getX(), bound.getY());
         Sprite.draw(batch);
     }
