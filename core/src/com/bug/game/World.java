@@ -1,31 +1,38 @@
 package com.bug.game;
 
 
-import java.util.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.badlogic.gdx.Gdx.graphics;
 
 public class World {
 
     static private int CellCount = 100;  // Количество ячееек в мире (на поле).
-    public ArrayList<WorldCell> World = new ArrayList<WorldCell>(); // Масив ячеек мира (поля).
+    // Масив ячеек мира (поля).
+    public Map<Integer, WorldCell> World_hm = new HashMap<Integer, WorldCell>();
     public ArrayList<Bug> Bugs = new ArrayList<Bug>();  // Масив жуков назодящихся в мире (на поле).
     private Bounds WorldBound;  // Размеры мира.
     float minSide;
     String minSideCell;
-   // public WorldCell exemple;
     float w = graphics.getWidth() - 50;
     float h = graphics.getHeight() - 50;
-
+    public Sound sound_step = Gdx.audio.newSound(Gdx.files.internal("sounds/Steps.wav"));
 
     World () {
        // SetWorldBounds(); // Установка размера игрового поля. Зависимость от размеров экрана.
 
         GenCells(CellCount);  // Генерация ячеек игрового поля.
-        GenBugs("red",11); // Создание персонажей (жуки).
-        GenBugs("blue",96);
+        GenBugs("red",0); // Создание персонажей (жуки).
+        GenBugs("blue",99);
 
 
     }
+
 
     private void SetWorldBounds() {
 
@@ -60,16 +67,15 @@ public class World {
 
                 float startx = 0 + step;
                 float starty = (graphics.getWidth() / 2) - (cell*5)- (step*4);
-                for (int i = 1; i <= CellCount; i++) {
+                for (int i = 0; i < CellCount; i++) {
 
 
 
                     Bounds bound = new Bounds(startx,starty,cell); // Расчет позиции текущей ячейки (в будущем)
-                  //  exemple = GenCell("Name" + Integer.toString(i), i, bound);
-                    World.add(GenCell("Name" + Integer.toString(i), i, bound));
 
+                    World_hm.put(i, GenCell("Name" + Integer.toString(i), i, bound));
                     startx+= cell+step;
-                    if( i % 10 == 0 && i!=0 ) {
+                    if( i % 10 == 9 && i!=0 ) {
                         starty += cell + step;
                         startx = 0 + step;
                     }
@@ -82,31 +88,23 @@ public class World {
 
                 float starty = 0 + step;
                 float startx = (graphics.getWidth() / 2) - (cell*5)- (step*4);
-                for (int i = 1; i <= CellCount; i++) {
+                for (int i = 0; i < CellCount; i++) {
 
                     Bounds bound = new Bounds(startx,starty,cell); // Расчет позиции текущей ячейки (в будущем)
 
-                    World.add(GenCell("Name" + Integer.toString(i), i, bound));
-
+                    World_hm.put(i, GenCell("Name" + Integer.toString(i), i, bound));
                     starty+= cell+step;
-                    if( i % 10 == 0 && i!=0) {
+                    if( i % 10 == 9 && i!=0) {
                         startx += cell + step;
                         starty = 0 + step;
                     }
 
             }
         }
-        else {
-                World.add(GenCell("Name" + Integer.toString(1), 1, new Bounds(0, 0, 200)));
-
-            }
-
 
     }
 
     private WorldCell GenCell(String Name, int CellID, Bounds CellBound) {
-
-
         return new WorldCell(Name, CellID,CellBound);
     }
 
@@ -123,19 +121,61 @@ public class World {
     }
 
     public WorldCell getCell (int index){
-        return World.get(index);
+        return World_hm.get(index);
     }
 
     public Bug getBug (int index){
         return Bugs.get(index);
     }
 
-    public void MakeStep() {
 
-        for (Bug cell:Bugs){
-            int position = cell.getCurrentPosition();
-            cell.setCurrentPosition(position+1);
-        }
+
+    public void MakeStep(String key, int ID) {
+
+        int CurrentPosition = Bugs.get(ID).getCurrentPosition();
+        System.out.println("CurrentPosition " + CurrentPosition);
+        int LeftRight = CurrentPosition%10;
+        System.out.println("LeftRight " + LeftRight);
+        int UpDown = CurrentPosition/10;
+        System.out.println("UpDown " + UpDown);
+        int NewPosition;
+
+        if (key == "N"){
+            if(UpDown!=9){
+                NewPosition=Bugs.get(ID).getCurrentPosition() +10;
+                System.out.println("New positiom " + NewPosition);
+                Bugs.get(ID).setCurrentPosition(NewPosition);
+                Bugs.get(ID).setBound(World_hm.get(NewPosition).GetCellCords());
+                Bugs.get(ID).Sprite.setRotation(270);
+            }}
+
+        if (key=="S"){
+            if(UpDown!=0){
+                NewPosition=Bugs.get(ID).getCurrentPosition() -10;
+                System.out.println("New positiom " + NewPosition);
+                Bugs.get(ID).setCurrentPosition(NewPosition);
+                Bugs.get(ID).setBound(World_hm.get(NewPosition).GetCellCords());
+                Bugs.get(ID).Sprite.setRotation(90);
+            }}
+        if (key=="E"){
+            if(LeftRight!=0){
+                NewPosition=Bugs.get(ID).getCurrentPosition() -1;
+                System.out.println("New positiom " + NewPosition);
+                Bugs.get(ID).setCurrentPosition(NewPosition);
+                Bugs.get(ID).setBound(World_hm.get(NewPosition).GetCellCords());
+                Bugs.get(ID).Sprite.setRotation(180);
+            }}
+        if (key=="W"){
+            if(LeftRight!=9){
+                NewPosition=Bugs.get(ID).getCurrentPosition() +1;
+                System.out.println("New positiom " + NewPosition);
+                Bugs.get(ID).setCurrentPosition(NewPosition);
+                Bugs.get(ID).setBound(World_hm.get(NewPosition).GetCellCords());
+                Bugs.get(ID).Sprite.setRotation(0);
+            }}
+        sound_step.play();
+
+
     }
 
 }

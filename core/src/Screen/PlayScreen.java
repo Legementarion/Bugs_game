@@ -42,36 +42,15 @@ public class PlayScreen implements Screen {
         stage.addActor(game.background);
 
         for (int j=0; j<game.world.Bugs.size(); j++) {
-            game.world.getBug(j).addListener(new BugListener());
             group_bug.addActor(game.world.getBug(j));
-            if (game.world.getBug(j).isTouchable()){
-                System.out.println("bug succses");
-            }
         }
 
-        for (int i=0; i<100; i++) {
-            group_stage.addActor(game.world.getCell(i));
+
+        for (int key : game.world.World_hm.keySet()) {
+             group_stage.addActor(game.world.World_hm.get(key));
         }
 
     }
-
-    class BugListener extends InputListener {
-        @Override
-        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//            Gdx.input.vibrate(25);
-            System.out.println("succses");
-            event.getListenerActor().setSize(200, 100);
-            return true;
-        }
-
-        @Override
-        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-     //     Gdx.input.vibrate(80);
-            System.out.println("fail");
-            event.getListenerActor().setSize(100, 50);
-        }
-    }
-
 
 
     @Override
@@ -92,7 +71,9 @@ public class PlayScreen implements Screen {
         group_bug.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("succses 44");
+                System.out.println("click");
+                game.world.MakeStep("S",game.world.getBug(1).getID());
+              //  game.world.MakeStep("E",game.world.getBug(0).getID());
             }
         });
 
@@ -102,6 +83,8 @@ public class PlayScreen implements Screen {
         stage.addActor(group_bug);
 
        Gdx.input.setInputProcessor(stage);
+       Gdx.input.setCatchBackKey(true); // Это нужно для того, чтобы пользователь возвращался назад, в случае нажатия на кнопку Назад на своем устройстве
+
 
     }
 

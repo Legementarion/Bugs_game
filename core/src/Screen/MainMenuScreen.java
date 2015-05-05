@@ -3,6 +3,7 @@ package Screen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -21,6 +22,7 @@ public class MainMenuScreen implements Screen {
     MyGdxGame game;
     Stage  stage = new Stage(new ScreenViewport());
     Table table = new Table();
+    Sound sound_button = Gdx.audio.newSound(Gdx.files.internal("sounds/Click_sounds.wav"));
 
 
 
@@ -28,6 +30,7 @@ public class MainMenuScreen implements Screen {
 
 
     TextButton buttonPlay = new TextButton("Play", skin, "Play");
+
     TextButton buttonExit = new TextButton("Exit", skin, "Exit");
     Label title = new Label("Game Title", skin);
 
@@ -35,11 +38,11 @@ public class MainMenuScreen implements Screen {
     game = gam;
 
 
+
     }
 
         @Override
     public void render(float delta) {
-
         stage.act();
         stage.draw();
     }
@@ -50,15 +53,19 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-        buttonPlay.addListener(new ClickListener(){
+
+        buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new PlayScreen(game));
+                sound_button.play();
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new PlayScreen(game));
             }
         });
-        buttonExit.addListener(new ClickListener(){
+
+        buttonExit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                sound_button.play();
                 Gdx.app.exit();
             }
         });
@@ -73,6 +80,8 @@ public class MainMenuScreen implements Screen {
         stage.addActor(table);
 
         Gdx.input.setInputProcessor(stage);
+        Gdx.input.setCatchBackKey(true);
+
     }
 
     @Override
