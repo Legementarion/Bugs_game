@@ -131,51 +131,57 @@ public class World {
 
 
     public void MakeStep(String key, int ID) {
+        if (getBug(ID).cruising_range != 0) {
+            getBug(ID).cruising_range--;
+            int CurrentPosition = Bugs.get(ID).getCurrentPosition();
+            System.out.println("CurrentPosition " + CurrentPosition);
+            int LeftRight = CurrentPosition % 10;
+            System.out.println("LeftRight " + LeftRight);
+            int UpDown = CurrentPosition / 10;
+            System.out.println("UpDown " + UpDown);
+            int NewPosition;
 
-        int CurrentPosition = Bugs.get(ID).getCurrentPosition();
-        System.out.println("CurrentPosition " + CurrentPosition);
-        int LeftRight = CurrentPosition%10;
-        System.out.println("LeftRight " + LeftRight);
-        int UpDown = CurrentPosition/10;
-        System.out.println("UpDown " + UpDown);
-        int NewPosition;
+            if (key == "N") {
+                if (UpDown != 9) {
+                    NewPosition = Bugs.get(ID).getCurrentPosition() + 10;
+                    System.out.println("New positiom " + NewPosition);
+                    Bugs.get(ID).setCurrentPosition(NewPosition);
+                    Bugs.get(ID).setBound(World_hm.get(NewPosition).GetCellCords());
+                    Bugs.get(ID).Sprite.setRotation(270);
+                }
+            }
 
-        if (key == "N"){
-            if(UpDown!=9){
-                NewPosition=Bugs.get(ID).getCurrentPosition() +10;
-                System.out.println("New positiom " + NewPosition);
-                Bugs.get(ID).setCurrentPosition(NewPosition);
-                Bugs.get(ID).setBound(World_hm.get(NewPosition).GetCellCords());
-                Bugs.get(ID).Sprite.setRotation(270);
-            }}
-
-        if (key=="S"){
-            if(UpDown!=0){
-                NewPosition=Bugs.get(ID).getCurrentPosition() -10;
-                System.out.println("New positiom " + NewPosition);
-                Bugs.get(ID).setCurrentPosition(NewPosition);
-                Bugs.get(ID).setBound(World_hm.get(NewPosition).GetCellCords());
-                Bugs.get(ID).Sprite.setRotation(90);
-            }}
-        if (key=="E"){
-            if(LeftRight!=0){
-                NewPosition=Bugs.get(ID).getCurrentPosition() -1;
-                System.out.println("New positiom " + NewPosition);
-                Bugs.get(ID).setCurrentPosition(NewPosition);
-                Bugs.get(ID).setBound(World_hm.get(NewPosition).GetCellCords());
-                Bugs.get(ID).Sprite.setRotation(180);
-            }}
-        if (key=="W"){
-            if(LeftRight!=9){
-                NewPosition=Bugs.get(ID).getCurrentPosition() +1;
-                System.out.println("New positiom " + NewPosition);
-                Bugs.get(ID).setCurrentPosition(NewPosition);
-                Bugs.get(ID).setBound(World_hm.get(NewPosition).GetCellCords());
-                Bugs.get(ID).Sprite.setRotation(0);
-            }}
-        sound_step.play();
+            if (key == "S") {
+                if (UpDown != 0) {
+                    NewPosition = Bugs.get(ID).getCurrentPosition() - 10;
+                    System.out.println("New positiom " + NewPosition);
+                    Bugs.get(ID).setCurrentPosition(NewPosition);
+                    Bugs.get(ID).setBound(World_hm.get(NewPosition).GetCellCords());
+                    Bugs.get(ID).Sprite.setRotation(90);
+                }
+            }
+            if (key == "E") {
+                if (LeftRight != 0) {
+                    NewPosition = Bugs.get(ID).getCurrentPosition() - 1;
+                    System.out.println("New positiom " + NewPosition);
+                    Bugs.get(ID).setCurrentPosition(NewPosition);
+                    Bugs.get(ID).setBound(World_hm.get(NewPosition).GetCellCords());
+                    Bugs.get(ID).Sprite.setRotation(180);
+                }
+            }
+            if (key == "W") {
+                if (LeftRight != 9) {
+                    NewPosition = Bugs.get(ID).getCurrentPosition() + 1;
+                    System.out.println("New positiom " + NewPosition);
+                    Bugs.get(ID).setCurrentPosition(NewPosition);
+                    Bugs.get(ID).setBound(World_hm.get(NewPosition).GetCellCords());
+                    Bugs.get(ID).Sprite.setRotation(0);
+                }
+            }
+            sound_step.play();
 
 
+        }
     }
 
 }

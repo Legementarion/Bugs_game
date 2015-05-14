@@ -68,7 +68,7 @@ public class PlayScreen implements Screen {
     @Override
     public void show() {
 
-        group_bug.addListener(new ClickListener(){
+        game.world.getBug(1).addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("click");
