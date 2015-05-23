@@ -1,33 +1,24 @@
 package Screen;
 
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.bug.game.Bounds;
 import com.bug.game.Bug;
 import com.bug.game.MyGdxGame;
-import com.bug.game.World;
+import com.bug.game.WorldCell;
 
 /**
  * Created by Lego on 08.04.2015.
  */
 public class PlayScreen implements Screen {
-    MyGdxGame game;
+    public MyGdxGame game;
     Stage stage;
     private Bounds bound;
     Group group_bug = new Group();
@@ -40,15 +31,113 @@ public class PlayScreen implements Screen {
         game = gam;
         stage = new Stage(new ScreenViewport());
         stage.addActor(game.background);
+/*
+        Skin skin = new Skin(Gdx.files.internal("skin.json"), new TextureAtlas(Gdx.files.internal("bar.pack")));
+        Label AttackLabel = new Label("label", skin, "black");
+        Label HPLabel = new Label("label", skin, "black");
 
-        for (int j=0; j<game.world.Bugs.size(); j++) {
-            group_bug.addActor(game.world.getBug(j));
+        ProgressBar bar = new ProgressBar(1,5,1,false,skin);
+
+        bar.setPosition(10, 10);
+        bar.setSize(290, bar.getPrefHeight());
+        bar.setAnimateDuration(2);
+        stage.addActor(bar);
+*/
+        for (final Bug bug : game.world.Bugs) {
+            bug.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    Gdx.app.log("TouchStart", "______________________________________________");
+                    Gdx.input.vibrate(25);
+                    bug.Sprite.setScale(1.2f);
+                    //SelectedStatus();
+                    Gdx.app.log("Example", "touch started at (" + x + ", " + y + ")");
+                    return true;
+                }
+
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    Gdx.input.vibrate(80);
+                    System.out.println("fail");
+                    float[] Cord = {bug.getX(), bug.getY(), bug.getHeight()};
+                    Gdx.app.log("Example", "touch done at (" + x + ", " + y + ")");
+
+
+                    if (game.world.SelectedBug == null) {
+
+                        game.world.SelectedBug = bug;
+                        game.world.SelectPossibleSteps(game.world.SelectedBug);
+
+                    } else if (game.world.SelectedBug == bug) {
+
+                        game.world.SelectedBug.Sprite.setScale(1.0f);
+                        game.world.UnSelectPossibleSteps(game.world.SelectedBug);
+                        game.world.SelectedBug = null;
+
+                    }
+                    else {
+                        game.world.UnSelectPossibleSteps(game.world.SelectedBug);
+                        game.world.SelectedBug.Sprite.setScale(1.0f);
+                        game.world.SelectedBug = bug;
+                        game.world.SelectPossibleSteps(game.world.SelectedBug);
+
+                    }
+
+                if(game.world.SelectedBug!=null)
+
+                {
+                    Gdx.app.log("Example", "Selected bug " + game.world.SelectedBug.getName() + "| ID " + game.world.SelectedBug.getID());
+                }
+
+                else
+
+                {
+                    Gdx.app.log("Example", "Selected bug " + game.world.SelectedBug + "| ID null");
+                }
+
+                Gdx.app.log("TouchEnd","______________________________________________");
+                }
+
+
+        });
+            group_bug.addActor(bug);
         }
 
 
-        for (int key : game.world.World_hm.keySet()) {
-             group_stage.addActor(game.world.World_hm.get(key));
+        for (int key : game.world.WorldMap.keySet()) {
+           final WorldCell Cell = game.world.WorldMap.get(key);
+           float[] Cord = {Cell.getX(), Cell.getY(), Cell.getHeight()};
+           Cell.addListener(new InputListener() {
+
+               public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                   Gdx.app.log("Touch", "Cell touchedDown: " + Cell.getCellID());
+                   if (game.world.SelectedBug != null) {
+                       if (game.world.CheckNextStep(Cell)) {
+                           Cell.Sprite.setScale(1.2f);
+                       }
+                   }
+
+
+                   return true;
+               }
+
+               public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+
+
+
+                   if (game.world.SelectedBug != null) {
+
+                       game.world.MakeStep(Cell);
+                       Cell.Sprite.setScale(1.0f);
+                   }
+
+               }
+
+           });
+             group_stage.addActor(game.world.WorldMap.get(key));
         }
+
+
 
     }
 
@@ -68,19 +157,12 @@ public class PlayScreen implements Screen {
     @Override
     public void show() {
 
-        game.world.getBug(1).addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("click");
-                game.world.MakeStep("S",game.world.getBug(1).getID());
-              //  game.world.MakeStep("E",game.world.getBug(0).getID());
-            }
-        });
-
 
         group_bug.setTouchable(Touchable.enabled);
+        group_stage.setTouchable(Touchable.enabled);
         stage.addActor(group_stage);
         stage.addActor(group_bug);
+
 
        Gdx.input.setInputProcessor(stage);
        Gdx.input.setCatchBackKey(true); // Это нужно для того, чтобы пользователь возвращался назад, в случае нажатия на кнопку Назад на своем устройстве

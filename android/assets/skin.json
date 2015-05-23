@@ -24,6 +24,9 @@
 
      "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
             "default": { "font": font, "fontColor": green}
+        },
+     "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+            "default": { "font": font, "fontColor": green}
         }
 
 }

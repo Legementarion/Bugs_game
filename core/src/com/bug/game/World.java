@@ -3,10 +3,12 @@ package com.bug.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import static com.badlogic.gdx.Gdx.graphics;
 
@@ -14,21 +16,21 @@ public class World {
 
     static private int CellCount = 100;  // Количество ячееек в мире (на поле).
     // Масив ячеек мира (поля).
-    public Map<Integer, WorldCell> World_hm = new HashMap<Integer, WorldCell>();
+    public Map<Integer, WorldCell> WorldMap = new HashMap<Integer, WorldCell>();
     public ArrayList<Bug> Bugs = new ArrayList<Bug>();  // Масив жуков назодящихся в мире (на поле).
     private Bounds WorldBound;  // Размеры мира.
+    public Bug SelectedBug;
     float minSide;
     String minSideCell;
     float w = graphics.getWidth() - 50;
     float h = graphics.getHeight() - 50;
-    public Sound sound_step = Gdx.audio.newSound(Gdx.files.internal("sounds/Steps.wav"));
+    public Sound StepSound = Gdx.audio.newSound(Gdx.files.internal("sounds/Steps.wav"));
 
-    World () {
-       // SetWorldBounds(); // Установка размера игрового поля. Зависимость от размеров экрана.
+    World() {
+        // SetWorldBounds(); // Установка размера игрового поля. Зависимость от размеров экрана.
 
         GenCells(CellCount);  // Генерация ячеек игрового поля.
-        GenBugs("red",0); // Создание персонажей (жуки).
-        GenBugs("blue",99);
+        GenBugs(2,2);
 
 
     }
@@ -46,58 +48,54 @@ public class World {
      */
     private void GenCells(int CellCount) {
 
-        if (w<h){
+        if (w < h) {
             minSide = w;
 
-            minSideCell= "x";
-        }
-        else{
+            minSideCell = "x";
+        } else {
             minSide = h;
 
 
-            minSideCell= "y";
+            minSideCell = "y";
         }
 
         float step = (minSide / 10) / 10;
-        float cell = (minSide/10) - step;
+        float cell = (minSide / 10) - step;
 
 
+        if (minSideCell.equals("x")) {
 
-            if (minSideCell.equals("x")) {
-
-                float startx = 0 + step;
-                float starty = (graphics.getWidth() / 2) - (cell*5)- (step*4);
-                for (int i = 0; i < CellCount; i++) {
-
+            float startx = 0 + step;
+            float starty = (graphics.getWidth() / 2) - (cell * 5) - (step * 4);
+            for (int i = 0; i < CellCount; i++) {
 
 
-                    Bounds bound = new Bounds(startx,starty,cell); // Расчет позиции текущей ячейки (в будущем)
+                Bounds bound = new Bounds(startx, starty, cell); // Расчет позиции текущей ячейки (в будущем)
 
-                    World_hm.put(i, GenCell("Name" + Integer.toString(i), i, bound));
-                    startx+= cell+step;
-                    if( i % 10 == 9 && i!=0 ) {
-                        starty += cell + step;
-                        startx = 0 + step;
-                    }
-
+                WorldMap.put(i, GenCell("1", i, bound));
+                startx += cell + step;
+                if (i % 10 == 9 && i != 0) {
+                    starty += cell + step;
+                    startx = 0 + step;
                 }
 
             }
-        else if (minSideCell.equals("y")){
+
+        } else if (minSideCell.equals("y")) {
 
 
-                float starty = 0 + step;
-                float startx = (graphics.getWidth() / 2) - (cell*5)- (step*4);
-                for (int i = 0; i < CellCount; i++) {
+            float starty = 0 + step;
+            float startx = (graphics.getWidth() / 2) - (cell * 5) - (step * 4);
+            for (int i = 0; i < CellCount; i++) {
 
-                    Bounds bound = new Bounds(startx,starty,cell); // Расчет позиции текущей ячейки (в будущем)
+                Bounds bound = new Bounds(startx, starty, cell); // Расчет позиции текущей ячейки (в будущем)
 
-                    World_hm.put(i, GenCell("Name" + Integer.toString(i), i, bound));
-                    starty+= cell+step;
-                    if( i % 10 == 9 && i!=0) {
-                        startx += cell + step;
-                        starty = 0 + step;
-                    }
+                WorldMap.put(i, GenCell("1", i, bound));
+                starty += cell + step;
+                if (i % 10 == 9 && i != 0) {
+                    startx += cell + step;
+                    starty = 0 + step;
+                }
 
             }
         }
@@ -105,83 +103,132 @@ public class World {
     }
 
     private WorldCell GenCell(String Name, int CellID, Bounds CellBound) {
-        return new WorldCell(Name, CellID,CellBound);
+        return new WorldCell(Name, CellID, CellBound);
     }
 
     private void GenBugs(String Name, int StartCellID) {
 
-        Bugs.add(new Bug(Name,StartCellID, getCell(StartCellID).GetCellCords()));
+        Bugs.add(new Bug(Name, StartCellID, getCell(StartCellID).GetCellCords(), Bugs.size()));
 
     }
 
-    private void GenBugs() {
+    private void GenBugs(int BugsNum, int TeamNum) {
+        String [] TeamsColorPattern = {"red","blue","orange","yellow","green","indigo","violet"};
+        ArrayList <Integer> ExistingID = new ArrayList<Integer>();
 
-        Bugs.add(new Bug());
+
+        for (int Team=0; Team<TeamNum; Team++) {
+            for (int Bug = 0; Bug < BugsNum; Bug++) {
+                int StartCellID = GenCellID(ExistingID);
+                Gdx.app.log("GenBugID", "BugID: " + StartCellID);
+                ExistingID.add(StartCellID);
+                Bugs.add(new Bug(TeamsColorPattern[Team], StartCellID, getCell(StartCellID).GetCellCords(), Bugs.size()));
+                WorldMap.get(StartCellID).setName(TeamsColorPattern[Team]);
+            }
+
+        }
+    }
+
+    private int GenCellID (ArrayList <Integer> ExistingID) {
+
+        do {
+            int CellsStatus = 0;
+            int CellID = new Random().nextInt(CellCount);
+            for (int i:ExistingID) { if(CellID == i) {CellsStatus++;} }
+            if (CellsStatus == 0) {return CellID; }
+        }
+        while (true);
 
     }
 
-    public WorldCell getCell (int index){
-        return World_hm.get(index);
+    public WorldCell getCell(int index) {
+        return WorldMap.get(index);
     }
 
-    public Bug getBug (int index){
+    public Bug getBug(int index) {
         return Bugs.get(index);
     }
 
 
 
-    public void MakeStep(String key, int ID) {
-        if (getBug(ID).cruising_range != 0) {
-            getBug(ID).cruising_range--;
-            int CurrentPosition = Bugs.get(ID).getCurrentPosition();
-            System.out.println("CurrentPosition " + CurrentPosition);
-            int LeftRight = CurrentPosition % 10;
-            System.out.println("LeftRight " + LeftRight);
-            int UpDown = CurrentPosition / 10;
-            System.out.println("UpDown " + UpDown);
-            int NewPosition;
 
-            if (key == "N") {
-                if (UpDown != 9) {
-                    NewPosition = Bugs.get(ID).getCurrentPosition() + 10;
-                    System.out.println("New positiom " + NewPosition);
-                    Bugs.get(ID).setCurrentPosition(NewPosition);
-                    Bugs.get(ID).setBound(World_hm.get(NewPosition).GetCellCords());
-                    Bugs.get(ID).Sprite.setRotation(270);
-                }
-            }
+    public void MakeStep (WorldCell Cell) {
 
-            if (key == "S") {
-                if (UpDown != 0) {
-                    NewPosition = Bugs.get(ID).getCurrentPosition() - 10;
-                    System.out.println("New positiom " + NewPosition);
-                    Bugs.get(ID).setCurrentPosition(NewPosition);
-                    Bugs.get(ID).setBound(World_hm.get(NewPosition).GetCellCords());
-                    Bugs.get(ID).Sprite.setRotation(90);
-                }
-            }
-            if (key == "E") {
-                if (LeftRight != 0) {
-                    NewPosition = Bugs.get(ID).getCurrentPosition() - 1;
-                    System.out.println("New positiom " + NewPosition);
-                    Bugs.get(ID).setCurrentPosition(NewPosition);
-                    Bugs.get(ID).setBound(World_hm.get(NewPosition).GetCellCords());
-                    Bugs.get(ID).Sprite.setRotation(180);
-                }
-            }
-            if (key == "W") {
-                if (LeftRight != 9) {
-                    NewPosition = Bugs.get(ID).getCurrentPosition() + 1;
-                    System.out.println("New positiom " + NewPosition);
-                    Bugs.get(ID).setCurrentPosition(NewPosition);
-                    Bugs.get(ID).setBound(World_hm.get(NewPosition).GetCellCords());
-                    Bugs.get(ID).Sprite.setRotation(0);
-                }
-            }
-            sound_step.play();
+        if (Cell.getCellID() == Bugs.get(SelectedBug.getID()).getCurrentPosition()+1 ||
+            Cell.getCellID() == Bugs.get(SelectedBug.getID()).getCurrentPosition()-1 ||
+            Cell.getCellID() == Bugs.get(SelectedBug.getID()).getCurrentPosition()+10 ||
+            Cell.getCellID() == Bugs.get(SelectedBug.getID()).getCurrentPosition()-10)
+        {
+            Gdx.app.log("Step: ","Going from " +  SelectedBug.getCurrentPosition() + " to " + Cell.getCellID() + "!" );
+            UnSelectPossibleSteps(SelectedBug);
+            Bugs.get(SelectedBug.getID()).setCurrentPosition(Cell.getCellID());
+            Bugs.get(SelectedBug.getID()).setBound(WorldMap.get(Cell.getCellID()).GetCellCords());
+            WorldMap.get(Cell.getCellID()).setName(Bugs.get(SelectedBug.getID()).getName());
+            SelectPossibleSteps(SelectedBug);
+            StepSound.play();
 
 
         }
+
     }
 
+    public boolean CheckNextStep (WorldCell Cell) {
+        if (Cell.getCellID() == Bugs.get(SelectedBug.getID()).getCurrentPosition()+1 ||
+                Cell.getCellID() == Bugs.get(SelectedBug.getID()).getCurrentPosition()-1 ||
+                Cell.getCellID() == Bugs.get(SelectedBug.getID()).getCurrentPosition()+10 ||
+                Cell.getCellID() == Bugs.get(SelectedBug.getID()).getCurrentPosition()-10)  {
+            return true;
+        }
+        return false;
+    }
+
+    public void SelectPossibleSteps (Bug bug) {
+
+        if (bug.getCurrentPosition() < 99) {
+            if (bug.getCurrentPosition()%10 !=9 ) {
+                WorldMap.get(bug.getCurrentPosition() + 1).Sprite.setColor(Color.PINK);
+                WorldMap.get(bug.getCurrentPosition() + 1).Sprite.setScale(1.1f);
+            }
+        }
+        if (bug.getCurrentPosition() > 0) {
+            if (bug.getCurrentPosition() % 10 != 0) {
+                WorldMap.get(bug.getCurrentPosition() - 1).Sprite.setColor(Color.PINK);
+                WorldMap.get(bug.getCurrentPosition() - 1).Sprite.setScale(1.1f);
+            }
+        }
+        if (bug.getCurrentPosition() <= 89) {
+            WorldMap.get(bug.getCurrentPosition() + 10).Sprite.setColor(Color.PINK);
+            WorldMap.get(bug.getCurrentPosition() + 10).Sprite.setScale(1.1f);
+        }
+        if (bug.getCurrentPosition() >=10) {
+            WorldMap.get(bug.getCurrentPosition() - 10).Sprite.setColor(Color.PINK);
+            WorldMap.get(bug.getCurrentPosition() - 10).Sprite.setScale(1.1f);
+        }
+
+    }
+
+    public void UnSelectPossibleSteps (Bug bug) {
+
+        if (bug.getCurrentPosition() < 99) {
+            if (bug.getCurrentPosition()%10 !=9 ) {
+                WorldMap.get(bug.getCurrentPosition() + 1).Sprite.setColor(Color.WHITE);
+                WorldMap.get(bug.getCurrentPosition() + 1).Sprite.setScale(1.0f);
+            }
+        }
+        if (bug.getCurrentPosition() > 0) {
+            if (bug.getCurrentPosition()%10 !=0 ) {
+                WorldMap.get(bug.getCurrentPosition() - 1).Sprite.setColor(Color.WHITE);
+                WorldMap.get(bug.getCurrentPosition() - 1).Sprite.setScale(1.0f);
+            }
+        }
+        if (bug.getCurrentPosition() <= 89) {
+            WorldMap.get(bug.getCurrentPosition() + 10).Sprite.setColor(Color.WHITE);
+            WorldMap.get(bug.getCurrentPosition() + 10).Sprite.setScale(1.0f);
+        }
+        if (bug.getCurrentPosition() >= 10) {
+            WorldMap.get(bug.getCurrentPosition() - 10).Sprite.setColor(Color.WHITE);
+            WorldMap.get(bug.getCurrentPosition() - 10).Sprite.setScale(1.0f);
+        }
+
+    }
 }

@@ -4,14 +4,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 public class WorldCell extends Actor {
 
-    private String Name="Null";  //Какому жуку пренадлежит
+    private String Name="1";  //Какому жуку пренадлежит
     private int CellID;
     private Bounds bound;   //Позиция на поле
-    private Texture cell_texture;
-    private Sprite Sprite;
+    private Texture CellTexture;
+    public Sprite Sprite;
+    World world;
+    MyGdxGame game;
 
 
     WorldCell(String Name, int CellID, Bounds bound) {
@@ -21,20 +24,24 @@ public class WorldCell extends Actor {
         this.bound = bound;
 
 
-        cell_texture = new Texture("1.bmp");
+        CellTexture = new Texture(Name+".bmp");
 
 
 
 
-        Sprite = new Sprite(cell_texture);
+        Sprite = new Sprite(CellTexture);
+        setHeight(bound.getSize());
+        setWidth(bound.getSize());
+        setPosition(bound.getX(), bound.getY());
+        setTouchable(Touchable.enabled);
 
     }
 
     WorldCell() {
 
 
-        cell_texture = new Texture("1.bmp");
-        Sprite = new Sprite(cell_texture);
+        CellTexture = new Texture("1.bmp");
+        Sprite = new Sprite(CellTexture);
 
 
     }
@@ -56,18 +63,10 @@ public class WorldCell extends Actor {
     }
 
     public void setName (String Name) {
-        if (Name == "red") {
-            cell_texture = new Texture("red.bmp");
-        }
-        if (Name == "blue") {
-            cell_texture = new Texture("blue.bmp");
-        }
-        else{
-            cell_texture = new Texture("1.bmp");
-        }
         this.Name = Name;
 
-        Sprite = new Sprite(cell_texture);
+            CellTexture = new Texture(this.Name+".bmp");
+            Sprite = new Sprite(CellTexture);
     }
 
 

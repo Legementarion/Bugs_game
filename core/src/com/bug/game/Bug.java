@@ -18,7 +18,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 public class Bug extends Actor {
     private String Name;   //Bugs Name (blue/red)
     private int BugID = 0;
-    public int cruising_range = 1; //Maximum step for bug
+    public String step;
+    public int CruisingRange = 99; //Maximum step for bug
     private int durability = 100;  //Bugs health
     private int power;  //Power of bugs attack
     private int CurrentPossition;  // Curren CellID
@@ -31,86 +32,35 @@ public class Bug extends Actor {
     MyGdxGame game;
 
 
-    public Bug(String Name, int CellID, final Bounds bound) {
+    public Bug(String Name, int CellID, final Bounds bound, int BugID) {
         this.bound = bound;
         this.Name = Name;
         this.CurrentPossition = CellID;
-        this.BugID++;
+        this.BugID=BugID;
 
      //   setCapturedCell(CurrentPossition, this.Name);
 
-        if (Name == "red") {
-            bug_texture = new Texture("Bug_red_1dmg.png");
-        }
-         else{
-            bug_texture = new Texture("Bug_blue_1dmg.png");
-        }
+
+            bug_texture = new Texture("Bug_"+Name+"_1dmg.png");
+
 
         Sprite = new Sprite(bug_texture);
 
         setHeight(bound.getSize());
-       // setHeight(bug_texture.getHeight());
         setWidth(bound.getSize());
-        //  setWidth(bug_texture.getWidth());
         setPosition(bound.getX(), bound.getY());
-
-        addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.input.vibrate(25);
-                Sprite.setScale(1.2f);
-                System.out.println("succses");
-                event.getListenerActor().setSize(200, 100);
-                Gdx.app.log("Example", "touch started at (" + x + ", " + y + ")");
-                return true;
-            }
-/*
-            @Override
-            public void touchDragged(InputEvent event, float x, float y, int pointer) {
-
-                if (event.getStageX() > game.world.getBug(1).bound.getX()) {
-                    System.out.println("N ");
-                          game.world.MakeStep("N", game.world.getBug(1).getID());
-                }
-                if (event.getStageX() < game.world.getBug(1).bound.getX()) {
-                    System.out.println("S ");
-                         game.world.MakeStep("S", game.world.getBug(0).getID());
-                }
-                if (event.getStageY() > game.world.getBug(1).bound.getY()) {
-                    System.out.println("E ");
-                         game.world.MakeStep("E", game.world.getBug(0).getID());
-                }
-                if (event.getStageY() < game.world.getBug(1).bound.getY()) {
-                    System.out.println("W ");
-                          game.world.MakeStep("W", game.world.getBug(0).getID());
-                }
-
-            }
-*/
-
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.input.vibrate(80);
-                Sprite.setScale(1.0f);
-                System.out.println("fail");
-                event.getListenerActor().setSize(100, 50);
-                Gdx.app.log("Example", "touch done at (" + x + ", " + y + ")");
-            }
-        });
 
 
         setTouchable(Touchable.enabled);
-
-
 
     }
 
 
 
-    Bug () {
+    public Bug () {
 
         if (Name == "red") {
-            bug_texture = new Texture("bug_red.jpg");
+            bug_texture = new Texture("bug_"+Name+".jpg");
         }
         else{
             bug_texture = new Texture("bug_red.jpg");
@@ -126,6 +76,10 @@ public class Bug extends Actor {
 
     public String getName() {
         return this.Name;
+    }
+
+    public void SelectedStatus(){
+
     }
 
     /**
@@ -180,19 +134,19 @@ public class Bug extends Actor {
         this.durability-=power;
     }
 
-
+/*
     public void setCapturedCell(WorldCell Cell, String Name) {
 
         System.out.println("Captured start! ");
-       // game.world.World_hm.get(Cell).setName(Name);
+       // game.world.WorldMap.get(Cell).setName(Name);
         System.out.println("Name is set! ");
-      //  world.World_hm.put(Cell.getCellID(), Cell);
+      //  world.WorldMap.put(Cell.getCellID(), Cell);
         System.out.println("cell changed ");
-        CapturedCells.add(world.World_hm.get(Cell));
-     //   world.World_hm.put(Cell, CapturedCells.get(CurrentPossition));
+        CapturedCells.add(world.WorldMap.get(Cell));
+     //   world.WorldMap.put(Cell, CapturedCells.get(CurrentPossition));
         System.out.println("cell added to captured ");
 
-    }
+    }*/
 
     public ArrayList<WorldCell> getCapturedCells() {
 
