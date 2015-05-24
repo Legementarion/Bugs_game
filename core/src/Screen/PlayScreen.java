@@ -30,6 +30,7 @@ public class PlayScreen implements Screen {
     public PlayScreen(final MyGdxGame gam) {
         game = gam;
         stage = new Stage(new ScreenViewport());
+        game.background.SetBackgroundPlay();
         stage.addActor(game.background);
 /*
         Skin skin = new Skin(Gdx.files.internal("skin.json"), new TextureAtlas(Gdx.files.internal("bar.pack")));
@@ -50,7 +51,6 @@ public class PlayScreen implements Screen {
                     Gdx.app.log("TouchStart", "______________________________________________");
                     Gdx.input.vibrate(25);
                     bug.Sprite.setScale(1.2f);
-                    //SelectedStatus();
                     Gdx.app.log("Example", "touch started at (" + x + ", " + y + ")");
                     return true;
                 }
@@ -58,7 +58,6 @@ public class PlayScreen implements Screen {
                 @Override
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                     Gdx.input.vibrate(80);
-                    System.out.println("fail");
                     float[] Cord = {bug.getX(), bug.getY(), bug.getHeight()};
                     Gdx.app.log("Example", "touch done at (" + x + ", " + y + ")");
 

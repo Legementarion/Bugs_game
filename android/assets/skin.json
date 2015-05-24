@@ -1,32 +1,24 @@
 {
 
     "com.badlogic.gdx.graphics.g2d.BitmapFont": {
-            "font": { "file": "font/font.fnt" },
+            "font": { "file": "font/font.fnt" }
         },
 
 	"com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
-        "default": {  "down": "bt3", "up": "bt6",  "font": font
+        "default": {  "down": "bt3", "up": "bt6",  "font": "font"
                 },
         "Play": {
-                    "down": "bt1", "up": "bt4",  "font": font
+                    "down": "bt1", "up": "bt4",  "font": "font"
                 },
         "Exit": {
-                    "down": "bt1", "up": "bt2",  "font": font
+                    "down": "bt1", "up": "bt2",  "font": "font"
 
                 }
     },
 
-    "com.badlogic.gdx.graphics.Color": {
-            "white": { "r": 1, "g": 1, "b": 1, "a": 1 },
-            "black": { "r": 0, "g": 0, "b": 0, "a": 1 },
-            "green": { "r": 0, "g": 1, "b": 0, "a": 1 },
-        },
-
-     "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
-            "default": { "font": font, "fontColor": green}
-        },
-     "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
-            "default": { "font": font, "fontColor": green}
-        }
+  "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
+    "default": {  "down": "bt10", "up": "bt10"
+    }
+  }
 
 }

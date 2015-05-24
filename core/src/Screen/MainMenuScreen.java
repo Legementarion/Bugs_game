@@ -4,9 +4,12 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -15,7 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.bug.game.MyGdxGame;
 
-
+import static com.badlogic.gdx.Gdx.graphics;
 
 
 public class MainMenuScreen implements Screen {
@@ -28,11 +31,9 @@ public class MainMenuScreen implements Screen {
 
     Skin skin = new Skin(Gdx.files.internal("skin.json"), new TextureAtlas(Gdx.files.internal("MainMenu.pack")));
 
-
     TextButton buttonPlay = new TextButton("Play", skin, "Play");
-
     TextButton buttonExit = new TextButton("Exit", skin, "Exit");
-    Label title = new Label("Game Title", skin);
+    Button Logo = new Button(skin);
 
     public MainMenuScreen(final MyGdxGame gam) {
     game = gam;
@@ -71,10 +72,10 @@ public class MainMenuScreen implements Screen {
         });
 
         stage.addActor(game.background);
-
-        table.add(title).size(800,150).padBottom(40).row();
-        table.add(buttonPlay).size(800,150).padBottom(50).row();
-        table.add(buttonExit).size(800,150).padBottom(50).row();
+        double Width = graphics.getWidth()/1.5;
+        table.add(Logo).size( (int)(graphics.getWidth()/1.25) ,(int)(graphics.getHeight()/2.35)).padBottom(10).row();
+        table.add(buttonPlay).size(graphics.getWidth()/3 ,graphics.getHeight() /7).padBottom(50).row();
+        table.add(buttonExit).size(graphics.getWidth()/3,graphics.getHeight()/7).padBottom(50).row();
 
         table.setFillParent(true);
         stage.addActor(table);

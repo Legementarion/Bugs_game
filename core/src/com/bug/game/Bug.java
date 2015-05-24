@@ -18,18 +18,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 public class Bug extends Actor {
     private String Name;   //Bugs Name (blue/red)
     private int BugID = 0;
-    public String step;
-    public int CruisingRange = 99; //Maximum step for bug
+    public int CruisingRange = 2; //Maximum step for bug
     private int durability = 100;  //Bugs health
-    private int power;  //Power of bugs attack
+    private int power=1;  //Power of bugs attack
     private int CurrentPossition;  // Curren CellID
-    private WorldCell CurrentCell;  // Curren CellID
     private ArrayList<WorldCell> CapturedCells = new ArrayList<WorldCell>();
     private Texture bug_texture;
     public Sprite Sprite;
     private Bounds bound;   //Позиция на поле
-    World world;
-    MyGdxGame game;
+
 
 
     public Bug(String Name, int CellID, final Bounds bound, int BugID) {
@@ -38,10 +35,7 @@ public class Bug extends Actor {
         this.CurrentPossition = CellID;
         this.BugID=BugID;
 
-     //   setCapturedCell(CurrentPossition, this.Name);
-
-
-            bug_texture = new Texture("Bug_"+Name+"_1dmg.png");
+            bug_texture = new Texture("Bug_"+Name+"_"+power+"dmg.png");
 
 
         Sprite = new Sprite(bug_texture);
@@ -78,9 +72,6 @@ public class Bug extends Actor {
         return this.Name;
     }
 
-    public void SelectedStatus(){
-
-    }
 
     /**
      *
@@ -134,19 +125,6 @@ public class Bug extends Actor {
         this.durability-=power;
     }
 
-/*
-    public void setCapturedCell(WorldCell Cell, String Name) {
-
-        System.out.println("Captured start! ");
-       // game.world.WorldMap.get(Cell).setName(Name);
-        System.out.println("Name is set! ");
-      //  world.WorldMap.put(Cell.getCellID(), Cell);
-        System.out.println("cell changed ");
-        CapturedCells.add(world.WorldMap.get(Cell));
-     //   world.WorldMap.put(Cell, CapturedCells.get(CurrentPossition));
-        System.out.println("cell added to captured ");
-
-    }*/
 
     public ArrayList<WorldCell> getCapturedCells() {
 
@@ -161,7 +139,7 @@ public class Bug extends Actor {
 
     @Override
     public void draw(Batch batch, float alpha) {
-
+        Sprite.setOriginCenter();
         Sprite.setSize(bound.getSize(),bound.getSize());
         Sprite.setPosition(bound.getX(), bound.getY());
         Sprite.draw(batch);

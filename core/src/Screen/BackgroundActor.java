@@ -14,7 +14,18 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
         private Sprite backgroundSprite;
 
         public BackgroundActor() {
-            backgroundTexture = new Texture("sky.jpg");
+            backgroundTexture = new Texture("BG1.png");
+            backgroundSprite = new Sprite(backgroundTexture);
+            backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        }
+
+        public void SetBackgroundMenu(){
+            backgroundTexture = new Texture("BG1.png");
+            backgroundSprite = new Sprite(backgroundTexture);
+            backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        }
+        public void SetBackgroundPlay(){
+            backgroundTexture = new Texture("BG.png");
             backgroundSprite = new Sprite(backgroundTexture);
             backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         }

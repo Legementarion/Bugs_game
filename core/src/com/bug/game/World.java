@@ -30,7 +30,7 @@ public class World {
         // SetWorldBounds(); // Установка размера игрового поля. Зависимость от размеров экрана.
 
         GenCells(CellCount);  // Генерация ячеек игрового поля.
-        GenBugs(2,2);
+        GenBugs(1,7);
 
 
     }
@@ -59,8 +59,8 @@ public class World {
             minSideCell = "y";
         }
 
-        float step = (minSide / 10) / 10;
-        float cell = (minSide / 10) - step;
+        float step = 0;//(minSide / 10) / 10;
+        float cell = (minSide / 10);
 
 
         if (minSideCell.equals("x")) {
@@ -73,10 +73,10 @@ public class World {
                 Bounds bound = new Bounds(startx, starty, cell); // Расчет позиции текущей ячейки (в будущем)
 
                 WorldMap.put(i, GenCell("1", i, bound));
-                startx += cell + step;
+                startx += cell;
                 if (i % 10 == 9 && i != 0) {
-                    starty += cell + step;
-                    startx = 0 + step;
+                    starty += cell;
+                    startx = 0;
                 }
 
             }
@@ -91,10 +91,10 @@ public class World {
                 Bounds bound = new Bounds(startx, starty, cell); // Расчет позиции текущей ячейки (в будущем)
 
                 WorldMap.put(i, GenCell("1", i, bound));
-                starty += cell + step;
+                starty += cell;
                 if (i % 10 == 9 && i != 0) {
-                    startx += cell + step;
-                    starty = 0 + step;
+                    startx += cell;
+                    starty = 0 ;
                 }
 
             }
@@ -159,12 +159,39 @@ public class World {
             Cell.getCellID() == Bugs.get(SelectedBug.getID()).getCurrentPosition()+10 ||
             Cell.getCellID() == Bugs.get(SelectedBug.getID()).getCurrentPosition()-10)
         {
-            Gdx.app.log("Step: ","Going from " +  SelectedBug.getCurrentPosition() + " to " + Cell.getCellID() + "!" );
+            Gdx.app.log("Step: ", "Going from " + SelectedBug.getCurrentPosition() + " to " + Cell.getCellID() + "!");
             UnSelectPossibleSteps(SelectedBug);
+
+            if(Cell.getCellID() == Bugs.get(SelectedBug.getID()).getCurrentPosition()-1) {
+                Gdx.app.log("Before Rotation: ", "X: " +  Bugs.get(SelectedBug.getID()).Sprite.getX() + "|Y: "
+                        + Bugs.get(SelectedBug.getID()).Sprite.getY() + "|Size: "
+                        + Bugs.get(SelectedBug.getID()).Sprite.getHeight());
+
+                Bugs.get(SelectedBug.getID()).Sprite.setOriginCenter();
+                Bugs.get(SelectedBug.getID()).Sprite.setRotation(180);
+                Gdx.app.log("After Rotation: ", "X: " + Bugs.get(SelectedBug.getID()).Sprite.getX() + "|Y: "
+                        + Bugs.get(SelectedBug.getID()).Sprite.getY() + "|Size: "
+                        + Bugs.get(SelectedBug.getID()).Sprite.getHeight());
+
+                }
+            if(Cell.getCellID() == Bugs.get(SelectedBug.getID()).getCurrentPosition()-10){
+                Bugs.get(SelectedBug.getID()).Sprite.setOriginCenter();
+                Bugs.get(SelectedBug.getID()).Sprite.setRotation(90);
+                }
+            if(Cell.getCellID() == Bugs.get(SelectedBug.getID()).getCurrentPosition()+10){
+                Bugs.get(SelectedBug.getID()).Sprite.setOriginCenter();
+                Bugs.get(SelectedBug.getID()).Sprite.setRotation(270);
+                }
+            if(Cell.getCellID() == Bugs.get(SelectedBug.getID()).getCurrentPosition()+1){
+                Bugs.get(SelectedBug.getID()).Sprite.setOriginCenter();
+                Bugs.get(SelectedBug.getID()).Sprite.setRotation(0);
+                }
             Bugs.get(SelectedBug.getID()).setCurrentPosition(Cell.getCellID());
             Bugs.get(SelectedBug.getID()).setBound(WorldMap.get(Cell.getCellID()).GetCellCords());
             WorldMap.get(Cell.getCellID()).setName(Bugs.get(SelectedBug.getID()).getName());
             SelectPossibleSteps(SelectedBug);
+           // Bugs.get(SelectedBug.getID()).CruisingRange--;
+
             StepSound.play();
 
 
