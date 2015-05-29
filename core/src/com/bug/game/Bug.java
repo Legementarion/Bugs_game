@@ -3,6 +3,7 @@ package com.bug.game;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -27,41 +28,19 @@ public class Bug extends Actor {
     public Sprite Sprite;
     private Bounds bound;   //Позиция на поле
 
-
-
     public Bug(String Name, int CellID, final Bounds bound, int BugID) {
         this.bound = bound;
         this.Name = Name;
         this.CurrentPossition = CellID;
         this.BugID=BugID;
-
-            bug_texture = new Texture("Bug_"+Name+"_"+power+"dmg.png");
-
-
+            //bug_texture = new Texture("Bug_"+Name+"_"+power+"dmg.png");
+            bug_texture = new Texture("bug.png");
         Sprite = new Sprite(bug_texture);
-
         setHeight(bound.getSize());
         setWidth(bound.getSize());
         setPosition(bound.getX(), bound.getY());
-
-
         setTouchable(Touchable.enabled);
 
-    }
-
-
-
-    public Bug () {
-
-        if (Name == "red") {
-            bug_texture = new Texture("bug_"+Name+".jpg");
-        }
-        else{
-            bug_texture = new Texture("bug_red.jpg");
-        }
-
-        this.Name = "red";
-        this.CurrentPossition = 0;
     }
 
     public void setCurrentPosition (int NewPosition){
@@ -71,7 +50,6 @@ public class Bug extends Actor {
     public String getName() {
         return this.Name;
     }
-
 
     /**
      *
@@ -97,6 +75,8 @@ public class Bug extends Actor {
     public int getDurability() {
         return this.durability;
     }
+
+
 
     /**
      *
@@ -136,9 +116,15 @@ public class Bug extends Actor {
         return this.CurrentPossition;
     }
 
-
     @Override
     public void draw(Batch batch, float alpha) {
+        if (Name == "red")   Sprite.setColor(Color.RED);
+        if (Name == "blue")  Sprite.setColor(Color.BLUE);
+        if (Name == "orange")   Sprite.setColor(Color.ORANGE);
+        if (Name == "green")   Sprite.setColor(Color.GREEN);
+        if (Name == "violet")   Sprite.setColor(Color.MAGENTA);
+        if (Name == "indigo")   Sprite.setColor(Color.PURPLE);
+        if (Name == "yellow")   Sprite.setColor(Color.YELLOW);
         Sprite.setOriginCenter();
         Sprite.setSize(bound.getSize(),bound.getSize());
         Sprite.setPosition(bound.getX(), bound.getY());

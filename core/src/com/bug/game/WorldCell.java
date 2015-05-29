@@ -15,44 +15,31 @@ import javax.swing.CellEditor;
 
 public class WorldCell extends Actor {
 
-    private String Name="stones";  //Какому жуку пренадлежит
+    private String Name=null;  //Какому жуку пренадлежит
     private int CellID;
+    public Buffs buff = null;
     private Bounds bound;   //Позиция на поле
-    private Texture CellTexture;
     public Sprite Sprite;
     public TextureRegion region;
 
-
-
-
     WorldCell(String Name, int CellID, Bounds bound) {
-
         this.Name = Name;
         this.CellID = CellID;
         this.bound = bound;
-        CellTexture = new Texture(Gdx.files.internal("stones.png"));
-        int ElementWidth = CellTexture.getWidth()/5;
-        int ElementHeight = CellTexture.getHeight()/2;
-        int ElementX1 = ElementWidth * new Random().nextInt(5);
-        int ElementY1 = ElementHeight * new Random().nextInt(2);
-        region = new TextureRegion(CellTexture, ElementX1, ElementY1, ElementWidth, ElementHeight);
-        Gdx.app.log("regionH: ", Float.toString(region.getRegionHeight()));
-        Gdx.app.log("regionW: ", Float.toString(region.getRegionWidth()));
-        Sprite = new Sprite(region);
+        Texture CellTexture = new Texture(Gdx.files.internal("stones.png"));
+        int TextureElementWidth = CellTexture.getWidth()/5;
+        int TextureElementHeight = CellTexture.getHeight()/2;
+        int TextureElementX = TextureElementWidth * new Random().nextInt(5);
+        int TextureElementY = TextureElementHeight * new Random().nextInt(2);
+        Sprite = new Sprite(new TextureRegion(CellTexture, TextureElementX, TextureElementY, TextureElementWidth, TextureElementHeight));
         setHeight(bound.getSize());
         setWidth(bound.getSize());
         setPosition(bound.getX(), bound.getY());
         setTouchable(Touchable.enabled);
-
     }
 
     WorldCell() {
-
-
-        CellTexture = new Texture("1.bmp");
-        Sprite = new Sprite(CellTexture);
-
-
+        Sprite = new Sprite(new Texture("1.bmp"));
     }
 
     public void SetCellCords(int X,int Y,int Size) {
@@ -73,13 +60,6 @@ public class WorldCell extends Actor {
 
     public void setName (String Name) {
         this.Name = Name;
-
-           // CellTexture = new Texture(this.Name+".png");
-           // Sprite = new Sprite(CellTexture);
-
-
-
-
     }
 
 
@@ -92,10 +72,10 @@ public class WorldCell extends Actor {
         if (Name == "violet")   Sprite.setColor(Color.MAGENTA);
         if (Name == "indigo")   Sprite.setColor(Color.PURPLE);
         if (Name == "yellow")   Sprite.setColor(Color.YELLOW);
-               Sprite.setOriginCenter();
-               Sprite.setPosition(bound.getX(), bound.getY());
-               Sprite.setSize(bound.getSize(),bound.getSize());
-               Sprite.draw(batch);
+        Sprite.setOriginCenter();
+        Sprite.setPosition(bound.getX(), bound.getY());
+        Sprite.setSize(bound.getSize(),bound.getSize());
+        Sprite.draw(batch);
 
     }
 }
