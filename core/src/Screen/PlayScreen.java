@@ -1,5 +1,6 @@
 package Screen;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -23,11 +24,10 @@ import com.bug.game.WorldCell;
 public class PlayScreen implements Screen {
     public MyGdxGame game;
     Stage stage;
-    private Bounds bound;
     Group group_bug = new Group();
     Group group_buff = new Group();
     Group group_stage = new Group();
-
+    Sound sound_BG = Gdx.audio.newSound(Gdx.files.internal("sounds/GameBG.wav"));
 
 
 
@@ -36,21 +36,7 @@ public class PlayScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         game.background.SetBackgroundPlay();
         stage.addActor(game.background);
-/*
-        Skin skin = new Skin(Gdx.files.internal("skin.json"), new TextureAtlas(Gdx.files.internal("bar.pack")));
-        Label AttackLabel = new Label("label", skin, "black");
-        Label HPLabel = new Label("label", skin, "black");
-
-        ProgressBar bar = new ProgressBar(1,5,1,false,skin);
-
-        bar.setPosition(10, 10);
-        bar.setSize(290, bar.getPrefHeight());
-        bar.setAnimateDuration(2);
-        stage.addActor(bar);
-
-
-*/
-
+        stage.addActor(game.world.StatusBar);
 
         for (final Bug bug : game.world.Bugs) {
             bug.addListener(new InputListener() {
@@ -67,17 +53,20 @@ public class PlayScreen implements Screen {
                     float[] Cord = {bug.getX(), bug.getY(), bug.getHeight()};
                     if (game.world.SelectedBug == null) {
                         game.world.SelectedBug = bug;
+                        game.world.StatusBar.setBug(bug);
                         game.world.SelectPossibleSteps(game.world.SelectedBug);
 
                     } else if (game.world.SelectedBug == bug) {
                         game.world.SelectedBug.Sprite.setScale(1.0f);
                         game.world.UnSelectPossibleSteps(game.world.SelectedBug);
+                        game.world.StatusBar.setBug(null);
                         game.world.SelectedBug = null;
                     }
                     else {
                         game.world.UnSelectPossibleSteps(game.world.SelectedBug);
                         game.world.SelectedBug.Sprite.setScale(1.0f);
                         game.world.SelectedBug = bug;
+                        game.world.StatusBar.setBug(bug);
                         game.world.SelectPossibleSteps(game.world.SelectedBug);
                     }
                 }
@@ -103,7 +92,7 @@ public class PlayScreen implements Screen {
                    }
                }
            });
-             group_stage.addActor(game.world.WorldMap.get(key));
+            group_stage.addActor(game.world.WorldMap.get(key));
         }
     }
 
@@ -112,9 +101,6 @@ public class PlayScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //Очистка экрана
         game.camera.update();
-        for (final Buffs buff : game.world.Buff) {
-            group_buff.addActor(buff);
-        }
         stage.addActor(group_buff);
         stage.addActor(group_bug);
         stage.act(Gdx.graphics.getDeltaTime());
@@ -140,7 +126,11 @@ public class PlayScreen implements Screen {
 
     @Override
     public void show() {
-
+        long soundId = sound_BG.loop();
+        sound_BG.setVolume(soundId,((float) (0.2)));
+        for (final Buffs buff : game.world.Buff) {
+            group_buff.addActor(buff);
+        }
         group_bug.setTouchable(Touchable.enabled);
         group_stage.setTouchable(Touchable.enabled);
         stage.addActor(group_stage);

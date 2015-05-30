@@ -24,6 +24,8 @@ public class World {
     public Map<Integer, WorldCell> WorldMap = new HashMap<Integer, WorldCell>();
     public ArrayList<Bug> Bugs = new ArrayList<Bug>();  // Масив жуков назодящихся в мире (на поле).
     public ArrayList<Buffs> Buff = new ArrayList<Buffs>();  // Масив баффов назодящихся в мире (на поле).
+    public StatusBar StatusBar = new StatusBar();
+
     private ArrayList <Integer> ExistingID = new ArrayList<Integer>();
     private Bounds WorldBound;  // Размеры мира.
     public Bug SelectedBug;
@@ -31,7 +33,7 @@ public class World {
     String minSideCell;
     float w = graphics.getWidth();
     float h = graphics.getHeight();
-    public Sound StepSound = Gdx.audio.newSound(Gdx.files.internal("sounds/Steps.wav"));
+    public Sound StepSound = Gdx.audio.newSound(Gdx.files.internal("sounds/Steps_bug.wav"));
 
     World() {
         // SetWorldBounds(); // Установка размера игрового поля. Зависимость от размеров экрана.
@@ -60,8 +62,7 @@ public class World {
 
         float step = 0;//(minSide / 10) / 10;
         float cell = (minSide / 10);
-        int cell_int = (int)cell;
-
+        int CellEndPosition = 0;
 
         if (minSideCell.equals("x")) {
             float startx = step;
@@ -75,6 +76,8 @@ public class World {
                     startx = step;
                 }
             }
+            CellEndPosition = (int)starty;
+
         } else if (minSideCell.equals("y")) {
             float starty = 0 + step;
             float startx =  0; //(graphics.getWidth() / 2) - (cell * 5) - (0 * 4);
@@ -87,7 +90,9 @@ public class World {
                     starty = step ;
                 }
             }
+            CellEndPosition = (int)startx;
         }
+        StatusBar.BuildStatusBar((int)CellEndPosition,0,(int)(graphics.getWidth()-CellEndPosition),graphics.getHeight());
     }
 
     private WorldCell GenCell(String Name, int CellID, Bounds CellBound) {
@@ -121,7 +126,7 @@ public class World {
     }
 
     private void GenBuffs(int Num) {
-        String [] BuffPattern = {"heal","damage","speed"};
+        String [] BuffPattern = {"heal","damage","range"};
 
             for (int count = 0; count < Num; count++) {
                 int StartCellID = GenCellID(ExistingID);
@@ -186,7 +191,8 @@ public class World {
             SelectPossibleSteps(SelectedBug);
            // Bugs.get(SelectedBug.getID()).CruisingRange--;
             CheckBuff();
-            StepSound.play();
+            long soundId = StepSound.play();
+            StepSound.setVolume(soundId,((float) (0.8)));
            // ChekFields();
         }
     }

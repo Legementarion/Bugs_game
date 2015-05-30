@@ -62,13 +62,17 @@ public void draw(Batch batch, float alpha) {
             bug.setPower(damage +5);
         }
 
-        if(this.Buffs == "speed"){
+        if(this.Buffs == "range"){
             bug.CruisingRange+=3;
         }
     }
 
     public void clear(){
         this.WorKing = false;
+        this.setPosition(0,0);
+        this.setSize(0,0);
+        this.CurrentPossition=-1;
+
     }
 
 }

@@ -19,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 public class Bug extends Actor {
     private String Name;   //Bugs Name (blue/red)
     private int BugID = 0;
-    public int CruisingRange = 2; //Maximum step for bug
+    public int CruisingRange = 50; //Maximum step for bug
     private int durability = 100;  //Bugs health
     private int power=1;  //Power of bugs attack
     private int CurrentPossition;  // Curren CellID
