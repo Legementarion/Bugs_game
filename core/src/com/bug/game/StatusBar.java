@@ -35,6 +35,7 @@ public class StatusBar extends Actor {
     ArrayList<Sprite> LableHelth = new ArrayList<Sprite>();
     ArrayList<Sprite> LableSpeed = new ArrayList<Sprite>();
     ArrayList<Sprite> LablePower = new ArrayList<Sprite>();
+    BTextSymbol Label = new BTextSymbol();
 
 
     public void BuildStatusBar(int StartX, int StartY, int Width, int Height) {
@@ -86,7 +87,8 @@ public class StatusBar extends Actor {
     private ArrayList<Sprite> getLabel (String String, int X, int Y) {
         ArrayList<Sprite> LabelSprites = new ArrayList<Sprite>();
         for (int i = 0; i<String.length(); i++) {
-            LabelSprites.add(new BTextSymbol(Character.getNumericValue(String.charAt(i))).getSprite());
+            Label.setTextureNumber(Character.getNumericValue(String.charAt(i)));
+            LabelSprites.add(Label.getSprite());
             LabelSprites.get(i).setPosition(X+((IconSize/2)*i),Y);
             LabelSprites.get(i).setSize(IconSize,IconSize);
 
