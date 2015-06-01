@@ -26,6 +26,7 @@ public class MainMenuScreen implements Screen {
     Stage  stage = new Stage(new ScreenViewport());
     Table table = new Table();
     Sound sound_button = Gdx.audio.newSound(Gdx.files.internal("sounds/Click_sounds.wav"));
+    Sound sound_BG = Gdx.audio.newSound(Gdx.files.internal("sounds/GameBG.wav"));
 
 
 
@@ -54,11 +55,16 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
+        long soundId = sound_BG.loop();
+        sound_BG.setVolume(soundId,((float) (0.2)));
 
         buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sound_button.play();
+                sound_button.dispose();
+                sound_BG.stop();
+                sound_BG.dispose();
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new PlayScreen(game));
             }
         });

@@ -1,0 +1,17 @@
+{
+    "com.badlogic.gdx.graphics.g2d.BitmapFont": {
+            "font": { "file": "font/font.fnt" }
+        },
+
+  "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
+    "On":
+    {
+      "down": "SoundOn", "up": "SoundOn"
+    },
+    "Off":
+    {
+      "down": "SoundOff", "up": "SoundOff"
+    }
+  }
+
+}

@@ -1,25 +1,32 @@
 package com.bug.game;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.ArrayList;
-import java.util.Random;
+
+import Screen.PlayScreen;
+
 
 /**
  * Created by Lego on 30.05.2015.
  */
 public class StatusBar extends Actor {
-
     Texture CellTexture = new Texture(Gdx.files.internal("Numbers.png"));
     int TextureElementWidth = CellTexture.getWidth()/10;
     int TextureElementHeight = CellTexture.getHeight();
-
+    Skin skin = new Skin(Gdx.files.internal("skin_sound.json"), new TextureAtlas(Gdx.files.internal("sound.pack")));
+    Button Sound = new Button(skin,"On");
     private Sprite BackGround = new Sprite(new Texture("StatusBar_BG.png"));
     private Sprite SpeedIcon = new Sprite(new Texture("Srpeed.png"));
     private Sprite HealthIcon = new Sprite(new Texture("Health.png"));
@@ -47,13 +54,18 @@ public class StatusBar extends Actor {
         this.StartIconsPositionY = Height-IconSize*4;
         this.StartIconsPositionX = this.StartX+(Width/6);
 
+        setSoundButton();
         setBackGround();
+        setHelth();
+        setSpeed();
+        setPower();
 
-
-
-            setHelth();
-            setSpeed();
-            setPower();
+        Sound.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("true");
+            }
+        });
         }
 
 
@@ -63,6 +75,12 @@ public class StatusBar extends Actor {
     private void setBackGround () {
         BackGround.setPosition(StartX + 10, StartY);
         BackGround.setSize(Width, Height);
+    }
+
+    private void setSoundButton () {
+        Sound.setPosition(StartIconsPositionX, StartIconsPositionY + IconSize+10);
+        Sound.setSize(IconSize, IconSize);
+        System.out.println("complite");
     }
 
     private void setHelth () {
@@ -99,6 +117,7 @@ public class StatusBar extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         BackGround.draw(batch, parentAlpha);
+        Sound.draw(batch, parentAlpha);
         if (bug != null) {
             Color LableColor = Color.BLACK;
             HealthIcon.draw(batch, parentAlpha);
@@ -106,7 +125,6 @@ public class StatusBar extends Actor {
             for (Sprite Sprite : getLabel(String.valueOf(bug.getDurability()),(int)(HealthIcon.getX()+IconSize),(int)HealthIcon.getY())) {
                 Sprite.setColor(LableColor);
                 Sprite.draw(batch, parentAlpha);
-
             }
 
             SpeedIcon.draw(batch, parentAlpha);

@@ -33,7 +33,8 @@ public class World {
     String minSideCell;
     float w = graphics.getWidth();
     float h = graphics.getHeight();
-    public Sound StepSound = Gdx.audio.newSound(Gdx.files.internal("sounds/Steps_bug.wav"));
+    public Sound StepSound = Gdx.audio.newSound(Gdx.files.internal("sounds/Click_sounds.wav"));
+
 
     World() {
         // SetWorldBounds(); // Установка размера игрового поля. Зависимость от размеров экрана.
@@ -191,8 +192,7 @@ public class World {
             SelectPossibleSteps(SelectedBug);
            // Bugs.get(SelectedBug.getID()).CruisingRange--;
             CheckBuff();
-            long soundId = StepSound.play();
-            StepSound.setVolume(soundId,((float) (0.8)));
+            StepSound.play();
            // ChekFields();
         }
     }
